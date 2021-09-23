@@ -1,8 +1,9 @@
+import firebase from 'firebase';
 import firebaseApp from './firebase';
 
 class AuthService {
-    login(providerNm) {
-        const authProvider = new firebaseApp.auth[`${providerNm}AuthProvider`]();
+    login(providerName) {
+        const authProvider = new firebase.auth[`${providerName}AuthProvider`]();
         return firebaseApp.auth().signInWithPopup(authProvider);
     }
 }

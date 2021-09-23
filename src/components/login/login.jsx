@@ -17,10 +17,10 @@ const Login = ({authService}) => {
                 <h1>Login</h1>
                 <ul>
                     <li>
-                        <button onClick={onLogin}>Goolge</button>
+                        <button onClick={onLogin}>Google</button>
                     </li>
                     <li>
-                        <button onClick={onLogin}>GitHub</button>
+                        <button onClick={onLogin}>Github</button>
                     </li>
                 </ul>
             </section>
