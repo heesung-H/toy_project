@@ -8,8 +8,8 @@ import styles from './maker.module.css';
 
 const Maker = ({authService}) => {
 
-    const [cards, setCards] = useState([
-        {
+    const [cards, setCards] = useState({
+        '0': {
             id : '0',
             name : 'Luice',
             company: 'Dalrise',
@@ -20,7 +20,7 @@ const Maker = ({authService}) => {
             fileName: 'Luice',
             fileURL: null
         },
-        {
+        '1': {
             id : '1',
             name : 'Lisa',
             company: 'kakao',
@@ -31,7 +31,7 @@ const Maker = ({authService}) => {
             fileName: 'Lisa',
             fileURL: 'Luice.png'
         },
-        {
+        '2': {
             id : '2',
             name : 'Bread',
             company: 'Easycare Tac',
@@ -41,8 +41,8 @@ const Maker = ({authService}) => {
             message: 'go for it',
             fileName: 'Bread',
             fileURL: null
-        },
-    ]);
+        }
+    });
 
     const history = useHistory();
     const onLogout = () => {
@@ -56,19 +56,28 @@ const Maker = ({authService}) => {
             }
         });
     });
-    
-    const addCard = (card) =>{
-        console.log("onSubmit");
-        const updated = [...cards, card];
-        setCards(updated);
-    }
 
+    const createOrupdateCard = (card) => {
+        setCards(cards => {
+            const updated = {...cards};
+            updated[card.id] = card;
+            return updated;
+        });
+    };
+
+    const deleteCard = (card) => {
+        setCards(cards => {
+            const updated = {...cards};
+            delete updated[card.id];
+            return updated;
+        });
+    };
 
     return(
         <section className={styles.maker}>
             <Header onLogout={onLogout} />
             <div className={styles.container}>
-                <Editor cards={cards} addCard={addCard}/>
+                <Editor cards={cards} updateCard={createOrupdateCard} deleteCard={deleteCard}/>
                 <Preview cards={cards}/>
             </div>
             <Footer/>
