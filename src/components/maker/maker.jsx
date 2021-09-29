@@ -1,5 +1,5 @@
 import userEvent from '@testing-library/user-event';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Editor from '../editor/editor';
 import Footer from '../footer/footer';
@@ -13,10 +13,23 @@ const Maker = ({FileInput, authService, cardRepository}) => {
     const [cards, setCards] = useState({});
     const [userId, setUserId] = useState(historyState && historyState.id);
 
-    const onLogout = () => {
+    //로그아웃 처리
+    const onLogout = useCallback(() => {
         authService.logout();
-    }
+    }, [authService, userId]);
 
+    //로그인 처리
+    useEffect(() => {
+        authService.onAuthChange(user => {
+            if(user){
+                setUserId(user.uid);
+            }else{
+                history.push('/');
+            }
+        });
+    }, [authService, userId, history]);
+
+    //데이터 조회
     useEffect(() => {
         if (!userId){
             return;
@@ -26,20 +39,9 @@ const Maker = ({FileInput, authService, cardRepository}) => {
         });
 
         return () => stopSync();
-    }, [userId]);
+    }, [userId, cardRepository]);
 
-
-    //로그인
-    useEffect(() => {
-        authService.onAuthChange(user => {
-            if(user){
-                setUserId(user.uid);
-            }else{
-                history.push('/');
-            }
-        });
-    });
-
+    //데이터 삽입
     const createOrupdateCard = (card) => {
         setCards(cards => {
             const updated = {...cards};
@@ -49,6 +51,7 @@ const Maker = ({FileInput, authService, cardRepository}) => {
         cardRepository.saveCard(userId, card);
     };
 
+    //데이터 삭제
     const deleteCard = (card) => {
         setCards(cards => {
             const updated = {...cards};

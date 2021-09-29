@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
 import styles from './card.module.css';
 
 
-const Card = ({card}) => { 
+const Card = memo(({ card }) => { 
 
     const DEFAULT_IMAGE = "/images/default_logo.png";
 
-    const {name, company, title, email, message, theme, fileName, fileURL} = card;
+    const {name, company, title, email, message, theme, fileURL} = card;
     const url = fileURL || DEFAULT_IMAGE;
 
     return(
             <li className={`${styles.card} ${getStyles(theme)}`}>
-                <img className={styles.avatar} src={url} alt="profile photo"/>
+                <img className={styles.avatar} src={url} alt="profile"/>
                 <div clasename={styles.info}>
                     <h1 className={styles.name}>{name}</h1>
                     <p className={styles.company}>{company}</p>
@@ -21,19 +21,19 @@ const Card = ({card}) => {
                 </div>
             </li>
     );
+});
 
-    function getStyles(theme){
-        switch (theme) {
-            case 'dark':
-                return styles.dark;
-            case 'light':
-                return styles.light;
-            case 'gray':
-                return styles.gray;
-            default:
-                throw new Error(`unknown theme: ${theme}`);
-        }
+function getStyles(theme){
+    switch (theme) {
+        case 'dark':
+            return styles.dark;
+        case 'light':
+            return styles.light;
+        case 'gray':
+            return styles.gray;
+        default:
+            throw new Error(`unknown theme: ${theme}`);
     }
-
 }
+
 export default Card;
