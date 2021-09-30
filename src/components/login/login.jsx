@@ -9,7 +9,7 @@ const Login = ({authService}) => {
     const history = useHistory();
     const goToMaker = (userId) => {
         history.push({
-            pathname : '/maker',
+            pathname : '/youtube',
             state: { id: userId }
         });
     };

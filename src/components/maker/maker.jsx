@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import Editor from '../editor/editor';
@@ -61,9 +60,13 @@ const Maker = ({FileInput, authService, cardRepository}) => {
         cardRepository.removeCard(userId, card);
     };
 
+    const onLink = () => {
+        history.push('/youtube');
+    }
+
     return(
         <section className={styles.maker}>
-            <Header onLogout={onLogout} />
+            <Header onLogout={onLogout} onLink={onLink} />
             <div className={styles.container}>
                 <Editor FileInput={FileInput} cards={cards} updateCard={createOrupdateCard} deleteCard={deleteCard}/>
                 <Preview cards={cards}/>
